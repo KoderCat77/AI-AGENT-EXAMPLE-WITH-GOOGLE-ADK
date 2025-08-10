@@ -1,0 +1,1 @@
+The Designer Agent is a specialized AI that acts as a UI/UX designer. It translates a structured requirements document into a detailed visual blueprint for a webpage. Its output is a prescriptive Markdown document detailing the layout, design system (colors, fonts, spacing), and component-by-component styling, ready for a code generation agent.

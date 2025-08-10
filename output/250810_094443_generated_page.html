@@ -1,0 +1,837 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The AI Language: Master AI Agents & Protocols with Fun!</title>
+    <meta name="description" content="Unlock the future of AI with The AI Language! Learn about AI Agents, Model Context Protocol, Agent to Agent communication, and Agent Development Kit in a fun, engaging, and easy-to-understand way. Start your AI journey today!">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* Basic CSS Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Global Design System - CSS Custom Properties */
+        :root {
+            --primary-color: #6A4FFD;
+            --secondary-color: #FFD700;
+            --background-color: #F5F7FA;
+            --surface-color: #FFFFFF;
+            --text-primary: #2D3748;
+            --text-secondary: #4A5568;
+            --error-color: #E53E3E;
+            --success-color: #38A169;
+
+            /* Spacing & Sizing */
+            --space-xs: 0.5rem;   /* 8px */
+            --space-s: 1rem;      /* 16px */
+            --space-m: 2rem;      /* 32px */
+            --space-l: 4rem;      /* 64px */
+            --space-xl: 8rem;     /* 128px */
+
+            /* Typography */
+            --font-headings: 'Outfit', sans-serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--background-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* Typography Scale */
+        h1 {
+            font-family: var(--font-headings);
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            color: var(--text-primary);
+        }
+
+        h2 {
+            font-family: var(--font-headings);
+            font-size: 2.5rem;
+            font-weight: 700;
+            line-height: 1.3;
+            color: var(--text-primary);
+        }
+
+        h3 {
+            font-family: var(--font-headings);
+            font-size: 1.75rem;
+            font-weight: 600;
+            line-height: 1.4;
+            color: var(--text-primary);
+        }
+
+        p {
+            font-size: 1.125rem;
+            font-weight: 400;
+            line-height: 1.7;
+            color: var(--text-secondary);
+        }
+
+        small {
+            font-size: 0.875rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: var(--text-secondary);
+        }
+
+        /* UI Component Base Styles - Buttons */
+        .btn {
+            padding: var(--space-s) var(--space-m);
+            border-radius: 8px;
+            font-family: var(--font-headings);
+            font-size: 1.125rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            display: inline-block; /* Ensures padding and sizing work as expected */
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: var(--surface-color);
+        }
+
+        .btn-primary:hover {
+            background-color: #5A3DE3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(106, 79, 253, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary-color);
+            color: var(--text-primary);
+        }
+
+        .btn-secondary:hover {
+            background-color: #E6C200;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(255, 215, 0, 0.3);
+        }
+
+        .btn-text-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .btn-text-link:hover {
+            color: #5A3DE3;
+            text-decoration: underline;
+        }
+
+        /* UI Component Base Styles - Cards */
+        .card {
+            background-color: var(--surface-color);
+            padding: var(--space-m);
+            border-radius: 12px;
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 12px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        /* UI Component Base Styles - Form Inputs (Placeholder for future) */
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            padding: var(--space-s);
+            border: 1px solid #CBD5E0;
+            border-radius: 8px;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            color: var(--text-primary);
+            width: 100%;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        textarea:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(106, 79, 253, 0.2);
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        /* Overall Page and Section Layout */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 var(--space-m);
+        }
+
+        section {
+            padding: var(--space-xl) 0;
+        }
+
+        /* Header / Navigation */
+        .main-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-m) var(--space-l);
+            background-color: var(--surface-color);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-family: var(--font-headings);
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+        }
+
+        .logo svg {
+            width: 36px;
+            height: 36px;
+            fill: var(--primary-color);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--space-m);
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 1.05rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .hamburger-menu {
+            display: none; /* Hidden on desktop */
+            flex-direction: column;
+            justify-content: space-around;
+            width: 30px;
+            height: 25px;
+            cursor: pointer;
+            z-index: 101;
+        }
+
+        .hamburger-menu span {
+            display: block;
+            width: 100%;
+            height: 3px;
+            background-color: var(--text-primary);
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        /* Mobile Nav overlay */
+        .nav-overlay {
+            display: none; /* Hidden by default */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.95);
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 99;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .nav-overlay.is-active {
+            display: flex;
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .nav-overlay .nav-links {
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-m);
+        }
+
+        .nav-overlay .nav-links a {
+            font-size: 1.5rem;
+            padding: var(--space-s) 0;
+            color: var(--text-primary);
+        }
+
+        .hamburger-menu.is-active span:nth-child(1) {
+            transform: translateY(11px) rotate(45deg);
+        }
+        .hamburger-menu.is-active span:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger-menu.is-active span:nth-child(3) {
+            transform: translateY(-11px) rotate(-45deg);
+        }
+
+
+        /* Hero Section */
+        .hero-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: var(--space-xl) var(--space-m);
+            background-color: var(--background-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section h1 {
+            max-width: 800px;
+            margin-bottom: var(--space-s);
+        }
+
+        .hero-section .subheading {
+            font-size: 1.35rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin-bottom: var(--space-m);
+        }
+
+        .hero-section .btn {
+            padding: var(--space-m) var(--space-l);
+            font-size: 1.25rem;
+        }
+
+        .hero-visual {
+            position: absolute;
+            bottom: -5%; /* Adjust as needed */
+            right: -10%; /* Adjust as needed */
+            width: 50%; /* Responsive sizing */
+            max-width: 600px;
+            height: auto;
+            opacity: 0.2; /* Subtle background element */
+            z-index: 1; /* Behind text */
+        }
+        .hero-section > *:not(.hero-visual) {
+            position: relative;
+            z-index: 2; /* Ensure text and buttons are above visual */
+        }
+
+
+        /* What You'll Learn / Core Topics Section */
+        .topics-section {
+            padding: var(--space-xl) var(--space-m);
+            background-color: var(--surface-color);
+            text-align: center;
+        }
+
+        .topics-section h2 {
+            margin-bottom: var(--space-s);
+        }
+
+        .topics-section .intro-text {
+            max-width: 800px;
+            margin: 0 auto var(--space-l);
+        }
+
+        .topic-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-m);
+            justify-content: center;
+            align-items: start;
+        }
+
+        .topic-card {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .topic-card-icon {
+            width: 80px;
+            height: 80px;
+            margin-bottom: var(--space-s);
+            background-color: var(--background-color);
+            border-radius: 50%;
+            padding: var(--space-s);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0; /* Prevent icon from shrinking */
+        }
+
+        .topic-card-icon svg {
+            width: 100%;
+            height: 100%;
+            fill: var(--primary-color);
+        }
+
+        .topic-card h3 {
+            margin-bottom: var(--space-xs);
+        }
+
+        .topic-card p {
+            font-size: 1rem;
+        }
+
+        /* Why Choose "The AI Language" Section */
+        .why-choose-section {
+            padding: var(--space-xl) var(--space-m);
+            background-color: var(--background-color);
+            text-align: center;
+        }
+
+        .why-choose-section h2 {
+            margin-bottom: var(--space-l);
+        }
+
+        .benefits-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .benefits-list {
+            list-style: none;
+            padding: 0;
+            margin-top: var(--space-m);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-m);
+            width: 100%; /* Ensure the grid takes full width */
+        }
+
+        .benefit-item {
+            text-align: left;
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-s);
+            font-size: 1.1rem;
+            color: var(--text-primary);
+        }
+
+        .benefit-item svg {
+            width: 24px;
+            height: 24px;
+            color: var(--primary-color);
+            flex-shrink: 0;
+            margin-top: 4px; /* Align icon better with text */
+        }
+
+        /* Call to Action (Secondary) Section */
+        .cta-secondary-section {
+            padding: var(--space-xl) var(--space-m);
+            background-color: var(--primary-color);
+            color: var(--surface-color);
+            text-align: center;
+        }
+
+        .cta-secondary-section h2 {
+            color: var(--surface-color);
+            margin-bottom: var(--space-s);
+        }
+
+        .cta-secondary-section p {
+            color: var(--surface-color);
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto var(--space-m);
+        }
+
+        .cta-secondary-section .btn {
+            padding: var(--space-m) var(--space-l);
+            font-size: 1.25rem;
+        }
+
+        /* Footer */
+        .main-footer {
+            padding: var(--space-l) var(--space-m);
+            background-color: var(--text-primary);
+            color: var(--surface-color);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-m);
+        }
+
+        .footer-nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: var(--space-m);
+        }
+
+        .footer-nav-links a {
+            text-decoration: none;
+            color: var(--surface-color);
+            font-weight: 500;
+            font-size: 1rem;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer-nav-links a:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+
+        .social-media-links {
+            display: flex;
+            gap: var(--space-m);
+        }
+
+        .social-media-links a svg {
+            width: 28px;
+            height: 28px;
+            fill: var(--surface-color);
+            opacity: 0.8;
+            transition: opacity 0.3s ease, transform 0.2s ease;
+        }
+
+        .social-media-links a:hover svg {
+            opacity: 1;
+            transform: translateY(-2px);
+        }
+
+        .copyright-notice {
+            opacity: 0.7;
+        }
+
+        .footer-tagline {
+            font-weight: 500;
+            opacity: 0.9;
+        }
+
+        /* Responsive Design - Media Queries */
+        @media (max-width: 1024px) {
+            /* Tablet adjustments */
+            h1 {
+                font-size: 3rem;
+            }
+            h2 {
+                font-size: 2.25rem;
+            }
+            h3 {
+                font-size: 1.6rem;
+            }
+            p {
+                font-size: 1.05rem;
+            }
+            .nav-links {
+                gap: var(--space-s);
+            }
+            .topic-cards-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            /* Mobile adjustments */
+            .main-header {
+                padding: var(--space-s) var(--space-m);
+            }
+            .nav-links {
+                display: none; /* Hide desktop nav */
+            }
+            .header-cta-button {
+                display: none; /* Hide desktop CTA */
+            }
+            .hamburger-menu {
+                display: flex; /* Show hamburger */
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+            h2 {
+                font-size: 2rem;
+            }
+            h3 {
+                font-size: 1.5rem;
+            }
+            p {
+                font-size: 1rem;
+            }
+
+            .hero-section {
+                padding: var(--space-l) var(--space-m);
+            }
+
+            .hero-visual {
+                width: 70%;
+                opacity: 0.1; /* More subtle on mobile */
+            }
+
+            .topics-section, .why-choose-section, .cta-secondary-section {
+                padding: var(--space-l) var(--space-m);
+            }
+
+            .topic-cards-grid, .benefits-list {
+                grid-template-columns: 1fr; /* Single column layout */
+            }
+
+            .main-footer {
+                padding: var(--space-m);
+            }
+            .footer-nav-links {
+                flex-direction: column;
+                gap: var(--space-s);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <a href="#" class="logo">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v2c0 1.1.9 2 2 2h0zm5.66-1.57c.92-.81 1.63-1.78 2.1-2.83H14v-2h6.18c.2-.76.32-1.55.32-2.38 0-4.71-3.79-8.5-8.5-8.5S3.5 7.29 3.5 12c0 1.25.27 2.45.75 3.56L12 11.5l1.09-2.02L12 5.5l1.45-1.55C15.11 3.53 16.92 3 19 3c.7 0 1.37.1 2 .28L16.66 18.36zM14 10.5V14h6.18c.2-.76.32-1.55.32-2.38 0-4.71-3.79-8.5-8.5-8.5S3.5 7.29 3.5 12c0 1.25.27 2.45.75 3.56L12 11.5l1.09-2.02L12 5.5l1.45-1.55C15.11 3.53 16.92 3 19 3c.7 0 1.37.1 2 .28L16.66 18.36z"/>
+            </svg>
+            The AI Language
+        </a>
+        <nav class="nav-links">
+            <a href="#">Home</a>
+            <a href="#about">About</a>
+            <a href="#topics">Topics</a>
+            <a href="#resources">Resources</a>
+            <a href="#contact">Contact</a>
+        </nav>
+        <button class="btn btn-primary header-cta-button">Start Learning!</button>
+        <div class="hamburger-menu" aria-label="Toggle navigation menu" role="button" tabindex="0">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </header>
+
+    <div class="nav-overlay">
+        <nav class="nav-links">
+            <a href="#">Home</a>
+            <a href="#about">About</a>
+            <a href="#topics">Topics</a>
+            <a href="#resources">Resources</a>
+            <a href="#contact">Contact</a>
+            <button class="btn btn-primary">Start Learning!</button>
+        </nav>
+    </div>
+
+    <main>
+        <section class="hero-section">
+            <div class="container">
+                <h1 class="main-headline">Unlock the Future: Speak the Language of AI Agents!</h1>
+                <p class="subheading">Demystify Model Context, Master Agent Protocols, and Build Smarter AI from the Ground Up. It's time to play with purpose!</p>
+                <a href="#topics" class="btn btn-primary">Start Your AI Journey!</a>
+            </div>
+            <img src="https://via.placeholder.com/600x400/F5F7FA/6A4FFD?text=AI+Agents+Illustration" alt="Dynamic illustration of friendly, interconnected AI agents" class="hero-visual" loading="lazy">
+        </section>
+
+        <section id="topics" class="topics-section">
+            <div class="container">
+                <h2 class="section-heading">What's in Your AI Agent Toolkit?</h2>
+                <p class="intro-text">Ready to go beyond theory? We break down the cutting-edge concepts that make AI agents tick, turning complex ideas into 'Aha!' moments!</p>
+                <div class="topic-cards-grid">
+                    <div class="card topic-card">
+                        <div class="topic-card-icon">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
+                            </svg>
+                        </div>
+                        <h3>Meet Your Digital Companions: AI Agents!</h3>
+                        <p>A fun, concise explanation of what AI agents are, their capabilities, and why they're revolutionizing technology. Emphasize autonomy and problem-solving.</p>
+                    </div>
+                    <div class="card topic-card">
+                        <div class="topic-card-icon">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 4c-4.42 0-8 3.58-8 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zM12 18c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6zm-.5-8H11c-.28 0-.5.22-.5.5v3c0 .28.22.5.5.5h.5c.28 0 .5-.22.5-.5v-3c0-.28-.22-.5-.5-.5z"/>
+                            </svg>
+                        </div>
+                        <h3>The Brains Behind the Banter: Model Context Protocol</h3>
+                        <p>Simplify the concept of how agents understand and maintain context, using an analogy to make it digestible and engaging.</p>
+                    </div>
+                    <div class="card topic-card">
+                        <div class="topic-card-icon">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M22 10V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v4c.69 0 1.25.56 1.25 1.25S2.69 12.5 2 12.5V14c0 1.1.9 2 2 2h7.5c0 .69.56 1.25 1.25 1.25s1.25-.56 1.25-1.25H20c1.1 0 2-.9 2-2v-4h-2zM4 6h16v4H4V6zm10 10v4c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2v-4h12zm-8-2h6v2H6v-2z"/>
+                            </svg>
+                        </div>
+                        <h3>Networking for Bots: Agent-to-Agent Communication!</h3>
+                        <p>Explain how AI agents communicate and collaborate, likening it to a high-tech conversation or team-building exercise.</p>
+                    </div>
+                    <div class="card topic-card">
+                        <div class="topic-card-icon">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M16 6h-2V2h-4v4H6c-1.1 0-2 .9-2 2v3c0 1.1.9 2 2 2h.5c.69 0 1.25.56 1.25 1.25s.56 1.25 1.25 1.25H16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-6 10H6v-2h4v2zm0-4H6v-2h4v2zm6 4h-4v-2h4v2z"/>
+                            </svg>
+                        </div>
+                        <h3>Your Master Builder's Blueprint: The Agent Development Kit</h3>
+                        <p>Highlight the tools, frameworks, and resources available for building agents, making it sound empowering and accessible.</p>
+                    </div>
+                    <div class="card topic-card">
+                        <div class="topic-card-icon">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9.4 16.6L4.8 12 9.4 7.4 8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/>
+                            </svg>
+                        </div>
+                        <h3>From Idea to AI: The Agent Development Journey</h3>
+                        <p>Outline the process of designing, building, testing, and deploying AI agents, emphasizing the creative and iterative nature of development.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="why-choose-section" id="about">
+            <div class="container">
+                <h2 class="section-heading">Why Learn the AI Language with Us?</h2>
+                <div class="benefits-container">
+                    <ul class="benefits-list">
+                        <li class="benefit-item">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v2c0 1.1.9 2 2 2h0zm5.66-1.57c.92-.81 1.63-1.78 2.1-2.83H14v-2h6.18c.2-.76.32-1.55.32-2.38 0-4.71-3.79-8.5-8.5-8.5S3.5 7.29 3.5 12c0 1.25.27 2.45.75 3.56L12 11.5l1.09-2.02L12 5.5l1.45-1.55C15.11 3.53 16.92 3 19 3c.7 0 1.37.1 2 .28L16.66 18.36zM14 10.5V14h6.18c.2-.76.32-1.55.32-2.38 0-4.71-3.79-8.5-8.5-8.5S3.5 7.29 3.5 12c0 1.25.27 2.45.75 3.56L12 11.5l1.09-2.02L12 5.5l1.45-1.55C15.11 3.53 16.92 3 19 3c.7 0 1.37.1 2 .28L16.66 18.36z"/>
+                            </svg>
+                            <p>Interactive Lessons & Playgrounds</p>
+                        </li>
+                        <li class="benefit-item">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
+                            </svg>
+                            <p>Real-World Agent Examples</p>
+                        </li>
+                        <li class="benefit-item">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v2c0 1.1.9 2 2 2h0zm5.66-1.57c.92-.81 1.63-1.78 2.1-2.83H14v-2h6.18c.2-.76.32-1.55.32-2.38 0-4.71-3.79-8.5-8.5-8.5S3.5 7.29 3.5 12c0 1.25.27 2.45.75 3.56L12 11.5l1.09-2.02L12 5.5l1.45-1.55C15.11 3.53 16.92 3 19 3c.7 0 1.37.1 2 .28L16.66 18.36zM14 10.5V14h6.18c.2-.76.32-1.55.32-2.38 0-4.71-3.79-8.5-8.5-8.5S3.5 7.29 3.5 12c0 1.25.27 2.45.75 3.56L12 11.5l1.09-2.02L12 5.5l1.45-1.55C15.11 3.53 16.92 3 19 3c.7 0 1.37.1 2 .28L16.66 18.36z"/>
+                            </svg>
+                            <p>A Community of Fellow AI Explorers</p>
+                        </li>
+                        <li class="benefit-item">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v2c0 1.1.9 2 2 2h0zm5.66-1.57c.92-.81 1.63-1.78 2.1-2.83H14v-2h6.18c.2-.76.32-1.55.32-2.38 0-4.71-3.79-8.5-8.5-8.5S3.5 7.29 3.5 12c0 1.25.27 2.45.75 3.56L12 11.5l1.09-2.02L12 5.5l1.45-1.55C15.11 3.53 16.92 3 19 3c.7 0 1.37.1 2 .28L16.66 18.36zM14 10.5V14h6.18c.2-.76.32-1.55.32-2.38 0-4.71-3.79-8.5-8.5-8.5S3.5 7.29 3.5 12c0 1.25.27 2.45.75 3.56L12 11.5l1.09-2.02L12 5.5l1.45-1.55C15.11 3.53 16.92 3 19 3c.7 0 1.37.1 2 .28L16.66 18.36z"/>
+                            </svg>
+                            <p>No Jargon, Just Clarity & Fun!</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-secondary-section" id="contact">
+            <div class="container">
+                <h2 class="section-heading">Ready to Speak the Language of Tomorrow?</h2>
+                <p>Join a growing community of innovators and start building the future, one intelligent agent at a time!</p>
+                <a href="#" class="btn btn-secondary">Enroll in Our Courses!</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container">
+            <nav class="footer-nav-links">
+                <a href="#about">About Us</a>
+                <a href="#topics">Topics</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+            </nav>
+            <div class="social-media-links">
+                <a href="#" aria-label="Twitter/X Profile">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.36-.83.49-1.74.85-2.72 1.05-.78-.83-1.89-1.34-3.13-1.34-2.36 0-4.29 1.93-4.29 4.29 0 .34.04.67.11.98-3.57-.18-6.73-1.89-8.85-4.48-.37.63-.58 1.37-.58 2.17 0 1.49.75 2.81 1.88 3.59-.69-.02-1.34-.21-1.91-.53v.05c0 2.08 1.48 3.82 3.44 4.22-.36.1-.73.15-1.11.15-.27 0-.53-.03-.79-.08.55 1.7 2.14 2.94 4.02 2.97-1.47 1.15-3.32 1.83-5.33 1.83-.35 0-.7-.02-1.05-.06 1.9 1.22 4.17 1.94 6.6 1.94 7.92 0 12.92-6.55 12.92-12.28 0-.19-.01-.37-.01-.56.84-.6 1.56-1.36 2.14-2.22z"/>
+                    </svg>
+                </a>
+                <a href="#" aria-label="LinkedIn Profile">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20.447 20.452h-3.56L17 13.926c0-1.792-.647-3.003-2.355-3.003-1.296 0-2.07.873-2.41 1.72-.124.302-.158.718-.158 1.139v6.669h-3.558V9.1h3.558v1.549c.475-.724 1.332-1.75 3.208-1.75 2.339 0 4.08 1.531 4.08 4.823v5.73H20.447zm-17.152-11.41h3.56c0-1.954-.008-4.522-.008-5.011 0-.613-.01-1.125-.018-1.536-.01-.4-.017-.74-.017-1.01-.017-.194-.017-.417-.017-.67 0-1.603-1.025-2.03-2.067-2.03-1.168 0-1.678.857-1.678 2.03 0 .253-.008.476-.017.67-.008.4-.017.74-.017 1.01-.008.41-.018.923-.018 1.536 0 .489-.008 3.057-.008 5.011H3.295zM5.003 4.5c-.868 0-1.573-.705-1.573-1.573s.705-1.573 1.573-1.573 1.573.705 1.573 1.573c0 .868-.705 1.573-1.573 1.573z"/>
+                    </svg>
+                </a>
+                <a href="#" aria-label="Discord Community">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20.9 2.5c-1.3-1.2-3.2-2-5.1-2-1.7 0-3.3.6-4.7 1.8C9.8 1.1 8.2.5 6.5.5c-1.9 0-3.8.8-5.1 2-1.2 1.3-1.9 3.1-1.3 4.9.4 1.1 1.1 2 2.1 2.8.2.2.3.4.3.7 0 .2-.1.4-.2.6l-1.6 3.9c-.3.8-.2 1.7.3 2.4.5.6 1.3.9 2.1.9h.8c.2 0 .4-.1.6-.2l1.6-1.2c.2-.1.4-.2.6-.2h.8c.2 0 .4.1.6.2l1.6 1.2c.2.1.4.2.6.2h.8c.8 0 1.6-.3 2.1-.9.5-.7.6-1.6.3-2.4l-1.6-3.9c-.1-.2-.2-.4-.2-.6 0-.3.1-.5.3-.7 1-1 1.8-1.8 2.1-2.8.6-1.8-.1-3.6-1.3-4.9zM7.5 15.5c-.8 0-1.5-.7-1.5-1.5s.7-1.5 1.5-1.5 1.5.7 1.5 1.5-.7 1.5-1.5 1.5zM16.5 15.5c-.8 0-1.5-.7-1.5-1.5s.7-1.5 1.5-1.5 1.5.7 1.5 1.5-.7 1.5-1.5 1.5z"/>
+                    </svg>
+                </a>
+            </div>
+            <small class="copyright-notice">Copyright © 2023 The AI Language. All rights reserved.</small>
+            <small class="footer-tagline">Making AI Agent Development Fun & Accessible.</small>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+
+                        // For mobile menu, close it after clicking a link
+                        if (navOverlay.classList.contains('is-active')) {
+                            navOverlay.classList.remove('is-active');
+                            hamburgerMenu.classList.remove('is-active');
+                        }
+                    }
+                });
+            });
+
+            // Mobile Navigation (Hamburger Menu)
+            const hamburgerMenu = document.querySelector('.hamburger-menu');
+            const navOverlay = document.querySelector('.nav-overlay');
+
+            hamburgerMenu.addEventListener('click', function() {
+                navOverlay.classList.toggle('is-active');
+                hamburgerMenu.classList.toggle('is-active');
+            });
+
+            // Close mobile menu when clicking a link inside it
+            navOverlay.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', function() {
+                    navOverlay.classList.remove('is-active');
+                    hamburgerMenu.classList.remove('is-active');
+                });
+            });
+
+            // Close mobile menu when clicking the primary button inside it
+            navOverlay.querySelector('.btn-primary').addEventListener('click', function() {
+                navOverlay.classList.remove('is-active');
+                hamburgerMenu.classList.remove('is-active');
+            });
+        });
+    </script>
+</body>
+</html>
