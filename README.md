@@ -5,5 +5,6 @@ Agent Model Type: Sequential
 Tools Used: Google ADK, Google AI Studio, Mac Terminal, VS Code
 
 Description:
-An example of building an AI Agent to make a webpage automatically with the corret user prompts
+An example of building an AI Agent to make a webpage automatically with the correct user prompts
+
 
